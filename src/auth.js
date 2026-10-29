@@ -14,7 +14,7 @@ function issueToken(user) {
   return jwt.sign(
     { sub: user.id, role: user.role },
     SECRET,
-    { expiresIn: "1h" }
+    { algorithm: "HS256", expiresIn: "1h" }
   );
 }
 
@@ -36,7 +36,7 @@ function requireAuth(req, res, next) {
   }
 
   try {
-    req.user = jwt.verify(token, SECRET);
+    req.user = jwt.verify(token, SECRET, { algorithms: ["HS256"] });
     next();
   } catch {
     res.status(401).json({ error: "unauthorized" });
