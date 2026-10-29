@@ -1,8 +1,6 @@
 "use strict";
 
-const _ = require("lodash");
-
-const SUMMARY_TEMPLATE = "Patient <%= name %> has <%= count %> upcoming appointments.";
+const escape = require("lodash/escape");
 
 /**
  * One-sentence summary of a patient's upcoming appointments.
@@ -11,8 +9,8 @@ const SUMMARY_TEMPLATE = "Patient <%= name %> has <%= count %> upcoming appointm
  * @returns {string}
  */
 function appointmentSummary(name, count) {
-  const render = _.template(SUMMARY_TEMPLATE);
-  return render({ name: _.escape(name), count });
+  const safeName = escape(name);
+  return `Patient ${escape(safeName)} has ${escape(count)} upcoming appointments.`;
 }
 
 module.exports = { appointmentSummary };
